@@ -1,0 +1,424 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>APS Equipe Azul</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;650;800&family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@400;600&display=swap">
+<style>
+:root{
+  --ground:#F3F5F9; --surface:#FFFFFF; --ink:#132033; --muted:#55627A; --rule:#D6DDE8; --soft:#E9EEF5;
+  --accent:#0B4F9C;
+  --p1:#7A2E9E; --p2:#1D5FB0; --p3:#3C7A20; --p4:#B55806;
+  --warn:#9A5B00; --warn-bg:#FFF4DF;
+  --display:"Archivo","Segoe UI",system-ui,sans-serif;
+  --body:"Source Sans 3","Segoe UI",system-ui,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --ground:#0D131C; --surface:#151D29; --ink:#E4EAF3; --muted:#9BA8BC; --rule:#2A3547; --soft:#1C2635;
+    --accent:#7FB0EE;
+    --p1:#C992E6; --p2:#82B2F0; --p3:#93CC72; --p4:#F2A560;
+    --warn:#F2C26B; --warn-bg:#2B2212;
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#0D131C; --surface:#151D29; --ink:#E4EAF3; --muted:#9BA8BC; --rule:#2A3547; --soft:#1C2635;
+  --accent:#7FB0EE;
+  --p1:#C992E6; --p2:#82B2F0; --p3:#93CC72; --p4:#F2A560;
+  --warn:#F2C26B; --warn-bg:#2B2212;
+}
+*{box-sizing:border-box}
+body{background:var(--ground);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.55;padding-inline:16px;padding-block:0 64px}
+.wrap{max-width:1160px;margin:0 auto}
+h1,h2,h3{font-family:var(--display);text-wrap:balance;line-height:1.15;margin:0}
+h1{font-size:clamp(28px,4.4vw,44px);font-weight:800;letter-spacing:-.01em}
+h2{font-size:clamp(22px,2.8vw,28px);font-weight:650}
+h3{font-size:18px;font-weight:650}
+p{margin:0}
+.mono{font-family:var(--mono);font-size:.86em}
+.eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.muted{color:var(--muted)}
+.c1{--c:var(--p1)} .c2{--c:var(--p2)} .c3{--c:var(--p3)} .c4{--c:var(--p4)}
+
+header.top{padding-block:40px 24px;display:grid;gap:14px}
+header.top .lede{max-width:70ch;color:var(--muted);font-size:17px}
+.keydates{display:flex;flex-wrap:wrap;gap:10px}
+.kd{background:var(--surface);border:1px solid var(--rule);border-radius:8px;padding:10px 14px;display:grid;gap:2px}
+.kd b{font-family:var(--display);font-size:20px;font-weight:800;font-variant-numeric:tabular-nums}
+.kd span{font-size:13px;color:var(--muted)}
+.kd.main{border-color:var(--accent);box-shadow:inset 0 0 0 1px var(--accent)}
+.kd.main b{color:var(--accent)}
+
+nav.toc{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--ground);border-block:1px solid var(--rule);display:flex;gap:4px;overflow-x:auto;padding-block:8px;margin-inline:-16px;padding-inline:16px}
+nav.toc a{white-space:nowrap;color:var(--muted);text-decoration:none;font-size:14px;padding:6px 10px;border-radius:6px}
+nav.toc a:hover,nav.toc a:focus-visible{background:var(--soft);color:var(--ink);outline:none}
+
+section{padding-block:40px 8px;display:grid;gap:18px;scroll-margin-top:56px}
+section > .intro{max-width:74ch;color:var(--muted)}
+
+.chip{display:inline-flex;align-items:center;font-family:var(--mono);font-size:12px;font-weight:600;border-radius:5px;padding:2px 7px;color:var(--c);background:color-mix(in srgb,var(--c) 13%,transparent);border:1px solid color-mix(in srgb,var(--c) 35%,transparent);white-space:nowrap}
+.chip.out{background:transparent;border-style:dashed}
+
+/* names */
+.names{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+.names label{display:grid;gap:4px;font-size:13px;color:var(--muted)}
+.names input{font:inherit;font-size:15px;color:var(--ink);background:var(--surface);border:1px solid var(--rule);border-left:4px solid var(--c);border-radius:6px;padding:8px 10px;width:100%}
+.names input:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
+.names .role{font-size:12.5px;color:var(--muted)}
+
+/* rhythm */
+.rhythm{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));background:var(--surface);border:1px solid var(--rule);border-radius:10px;overflow:hidden}
+.rd{padding:14px;display:grid;gap:6px;align-content:start;border-right:1px solid var(--rule)}
+.rd:last-child{border-right:0}
+.rd .day{font-family:var(--mono);font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);font-weight:600}
+.rd h3{font-size:15px}
+.rd p{font-size:13.5px;color:var(--muted)}
+
+/* weeks */
+.weeks{display:grid;gap:16px}
+.week{background:var(--surface);border:1px solid var(--rule);border-radius:12px;overflow:hidden;scroll-margin-top:60px}
+.week-head{display:grid;grid-template-columns:auto 1fr;gap:18px;align-items:center;padding:16px 18px;border-bottom:1px solid var(--rule)}
+.date{display:grid;justify-items:center;min-width:78px;padding:8px 10px;border-radius:8px;background:var(--soft)}
+.date b{font-family:var(--display);font-size:26px;font-weight:800;line-height:1;font-variant-numeric:tabular-nums}
+.date span{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-top:4px}
+.week.final .date{background:var(--accent)}
+.week.final .date b,.week.final .date span{color:var(--surface)}
+.week-head .t{display:grid;gap:4px}
+.week-head .t .eyebrow{color:var(--accent)}
+.week-head .t p{font-size:14.5px;color:var(--muted)}
+.tasks{display:grid;grid-template-columns:repeat(4,minmax(0,1fr))}
+.task{padding:14px 16px;display:grid;gap:8px;align-content:start;border-right:1px solid var(--rule);border-top:3px solid var(--c)}
+.task:last-child{border-right:0}
+.task .who{font-family:var(--display);font-weight:800;font-size:13px;color:var(--c)}
+.task h4{margin:0;font-family:var(--display);font-size:15.5px;font-weight:650;line-height:1.25}
+.task p{font-size:13.5px;color:var(--muted)}
+.task .rv{margin-top:2px;font-size:12.5px;color:var(--muted);display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+.week-foot{padding:10px 18px;border-top:1px solid var(--rule);background:var(--ground);font-size:13.5px;color:var(--muted)}
+.week-foot b{color:var(--ink)}
+
+/* summary */
+.scroll{overflow-x:auto;border:1px solid var(--rule);border-radius:10px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:14px}
+th,td{padding:9px 11px;border-bottom:1px solid var(--rule);text-align:left;vertical-align:top}
+thead th{font-family:var(--display);font-weight:650;font-size:13px;background:var(--soft);white-space:nowrap}
+thead th small{display:block;font-family:var(--mono);font-weight:400;color:var(--muted);font-size:11px}
+tbody th{white-space:nowrap;border-left:4px solid var(--c);font-family:var(--display)}
+tbody th small{display:block;font-family:var(--body);font-weight:400;font-size:12px;color:var(--muted);white-space:normal;max-width:18ch}
+.sum td{min-width:150px}
+.sum td .rvl{display:block;margin-top:5px;font-size:12px;color:var(--muted)}
+.rot td{text-align:center}
+.rot th{text-align:left}
+.rot td.self{color:var(--muted)}
+
+.two{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;align-items:start}
+.panel{background:var(--surface);border:1px solid var(--rule);border-radius:10px;padding:16px 18px;display:grid;gap:10px}
+.panel ul{margin:0;padding-left:18px;display:grid;gap:4px;font-size:14.5px}
+.states{display:flex;flex-wrap:wrap;align-items:center;gap:6px}
+.state{border:1px solid var(--rule);border-radius:6px;padding:5px 9px;background:var(--ground);font-size:13.5px;font-weight:600}
+.arrow{color:var(--muted);font-family:var(--mono)}
+
+.note{border:1px solid color-mix(in srgb,var(--warn) 45%,transparent);background:var(--warn-bg);border-radius:10px;padding:14px 16px;display:grid;gap:6px}
+.note h3{color:var(--warn);font-size:15px}
+.note ul{margin:0;padding-left:18px;display:grid;gap:4px}
+
+footer{margin-top:48px;padding-top:18px;border-top:1px solid var(--rule);font-size:13px;color:var(--muted)}
+
+@media (max-width:960px){
+  .tasks{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .task:nth-child(2n){border-right:0}
+  .rhythm{grid-template-columns:1fr}
+  .rd{border-right:0;border-bottom:1px solid var(--rule)}
+  .rd:last-child{border-bottom:0}
+  .two{grid-template-columns:1fr}
+  .names{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media (max-width:560px){
+  .tasks,.names{grid-template-columns:1fr}
+  .task{border-right:0}
+  .week-head{grid-template-columns:1fr}
+  .date{justify-self:start;grid-auto-flow:column;gap:8px;align-items:baseline}
+}
+@media print{
+  nav.toc{display:none}
+  .week{break-inside:avoid}
+  body{background:#fff}
+}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+<header class="top">
+  <span class="eyebrow">INF0290 · Projeto de Software · 2026/2 · APS · Equipe Azul</span>
+  <h1>Cronograma da APS: 6 entregas às quartas</h1>
+  <p class="lede">Uma macroentrega por semana, sempre na quarta-feira, dividida entre os quatro integrantes. Cada pessoa escreve uma parte e revisa a parte de outra pessoa. A última entrega é a versão final no SIGAA, em 28/10, e a semana seguinte fica livre para preparar a apresentação.</p>
+  <div class="keydates">
+    <div class="kd"><b>16/09</b><span>reunião de abertura</span></div>
+    <div class="kd"><b>23/09 → 21/10</b><span>entregas 1 a 5 (quartas)</span></div>
+    <div class="kd main"><b>28/10</b><span>entrega 6 · envio no SIGAA</span></div>
+    <div class="kd"><b>29/10 → 04/11</b><span>preparação da apresentação</span></div>
+  </div>
+</header>
+
+<nav class="toc" aria-label="Seções">
+  <a href="#equipe">Equipe</a>
+  <a href="#ritmo">Ritmo da semana</a>
+  <a href="#cronograma">Cronograma</a>
+  <a href="#resumo">Resumo por pessoa</a>
+  <a href="#revisoes">Revisões</a>
+  <a href="#cobertura">Cobertura</a>
+</nav>
+
+<section id="equipe">
+  <span class="eyebrow">Equipe</span>
+  <h2>Quem é quem</h2>
+  <p class="intro">Cada integrante cuida das mesmas funcionalidades do começo ao fim e tem um papel fixo na organização. Digite os nomes para trocar P1–P4 na página inteira (fica salvo só neste navegador).</p>
+  <div class="names">
+    <label class="c1" for="n1">P1 · Locais, RU e modelo de dados<input id="n1" data-p="1" placeholder="Nome de P1"><span class="role">Papel: acompanha prazos e atrasos</span></label>
+    <label class="c2" for="n2">P2 · Segurança, Rádio, Apps e implantação<input id="n2" data-p="2" placeholder="Nome de P2"><span class="role">Papel: contato com o professor</span></label>
+    <label class="c3" for="n3">P3 · Guia, Eventos, Notícias e pacotes<input id="n3" data-p="3" placeholder="Nome de P3"><span class="role">Papel: monta o documento toda semana</span></label>
+    <label class="c4" for="n4">P4 · Avaliação de UA (a parte nova)<input id="n4" data-p="4" placeholder="Nome de P4"><span class="role">Papel: pauta e atas das reuniões</span></label>
+  </div>
+</section>
+
+<section id="ritmo">
+  <span class="eyebrow">Toda semana</span>
+  <h2>Ritmo da semana</h2>
+  <p class="intro">O mesmo ciclo se repete nas 6 semanas. Assim a revisão acontece antes de cada quarta, e não tudo no final.</p>
+  <div class="rhythm">
+    <div class="rd"><span class="day">Quarta</span><h3>Reunião e entrega</h3><p>Fecha a entrega da semana, registra a ata e confirma as tarefas da próxima.</p></div>
+    <div class="rd"><span class="day">Quinta → domingo</span><h3>Autoria</h3><p>Cada um produz sua parte. Domingo à noite avisa no grupo: “pronto para revisão”.</p></div>
+    <div class="rd"><span class="day">Segunda</span><h3>Revisão</h3><p>O revisor da semana deixa os comentários, com data, no documento compartilhado.</p></div>
+    <div class="rd"><span class="day">Terça</span><h3>Ajustes e integração</h3><p>O autor corrige e o revisor aprova. P3 coloca a parte aprovada no documento.</p></div>
+    <div class="rd"><span class="day">Quarta</span><h3>Próxima entrega</h3><p>Quem não entregou fica registrado na ata, como pede o Apêndice B.</p></div>
+  </div>
+</section>
+
+<section id="cronograma">
+  <span class="eyebrow">6 macroentregas</span>
+  <h2>Cronograma e divisão</h2>
+  <p class="intro">Em cada cartão, a cor mostra quem escreve e o selo tracejado mostra quem revisa aquela parte.</p>
+  <div class="weeks" id="weeks"></div>
+</section>
+
+<section id="resumo">
+  <span class="eyebrow">Visão por pessoa</span>
+  <h2>Resumo por pessoa</h2>
+  <p class="intro">A mesma divisão, lida por linha: o que cada um escreve em cada semana e de quem revisa.</p>
+  <div class="scroll"><table class="sum" id="sum"></table></div>
+</section>
+
+<section id="revisoes">
+  <span class="eyebrow">Regra 5 da APS</span>
+  <h2>Revisões</h2>
+  <p class="intro">O revisor muda a cada semana, em rodízio. Nas 6 semanas, cada pessoa revisa duas vezes cada um dos outros três, e ninguém revisa a própria parte.</p>
+  <div class="two">
+    <div class="scroll"><table class="rot" id="rot"></table></div>
+    <div class="panel">
+      <h3>O que o revisor confere</h3>
+      <ul>
+        <li>O modelo mostra o que o app faz de verdade (conferir com os prints)</li>
+        <li>Notação UML correta: setas, multiplicidades, estereótipos</li>
+        <li>Nomes de classes e operações iguais aos do modelo de dados e das semanas anteriores</li>
+        <li>O item cita os IDs relacionados (UC05, DAtv05…)</li>
+        <li>Referências citadas, inclusive uso de IA com o prompt</li>
+        <li>Português, figura numerada com legenda, autor e revisor identificados</li>
+      </ul>
+      <h3>Etapas</h3>
+      <div class="states">
+        <span class="state">Rascunho</span><span class="arrow">→</span>
+        <span class="state">Pronto para revisão</span><span class="arrow">→</span>
+        <span class="state">Comentado</span><span class="arrow">→</span>
+        <span class="state">Ajustado</span><span class="arrow">→</span>
+        <span class="state">Aprovado</span><span class="arrow">→</span>
+        <span class="state">No documento</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="cobertura">
+  <span class="eyebrow">Conferência</span>
+  <h2>Onde cada exigência da APS é feita</h2>
+  <div class="two">
+    <div class="scroll"><table>
+      <thead><tr><th>Item do Apêndice D</th><th>Entrega</th></tr></thead>
+      <tbody id="apd"></tbody>
+    </table></div>
+    <div class="scroll"><table>
+      <thead><tr><th>Regra ou critério</th><th>Entrega</th></tr></thead>
+      <tbody id="rules"></tbody>
+    </table></div>
+  </div>
+  <div class="two">
+    <div class="panel">
+      <h3>Depois de 28/10: preparação da apresentação</h3>
+      <ul>
+        <li>Cada um prepara os slides da sua parte (as funcionalidades que acompanhou)</li>
+        <li>Um ensaio com todos, cronometrado</li>
+        <li>Conferir a data exata da apresentação com o professor</li>
+      </ul>
+    </div>
+    <div class="note">
+      <h3>Levar ao professor na semana 1 (P2)</h3>
+      <ul>
+        <li>O Apêndice C lista <b>cinco</b> nomes na Equipe Azul; confirmar que a equipe tem quatro.</li>
+        <li>“Um diagrama de sequência para cada atividade”: é por ação do sistema ou por fluxo?</li>
+        <li>A avaliação exige login com a conta da UFG?</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<footer>Baseado na definição da APS de INF0290 (2026/2), Apêndices A a D, e em 8 capturas do app Minha UFG feitas em 16/09/2026. Casos de uso UC01–UC15: Segurança (01), Rádio (02–03), Guia (04), Eventos (05), Notícias (06), RU (07), Locais (08–09), Apps UFG (10), Avaliação de UA (11–15).</footer>
+</div>
+
+<script>
+(function(){
+  var W = [
+    {n:1, date:"23/09", t:"Casos de uso e levantamento", s:1,
+     goal:"Todos sabem o que o app faz e quais casos de uso serão modelados.",
+     done:"Diagrama de casos de uso aprovado e modelo do documento pronto.",
+     k:{
+      1:["Glossário e lista de conceitos","Termos do domínio (UA, dimensão de qualidade, elemento educacional, regional…) e conceitos que devem virar classes, tirados dos prints e do Apêndice A."],
+      2:["Capturas que faltam e dúvidas ao professor","Detalhes de notícia e evento, aba Mapa, botão ▶ da Rádio, toques em Segurança e no RU. Enviar as 3 dúvidas e registrar as respostas."],
+      3:["Diagrama de casos de uso e modelo do documento","UC01–UC15 com atores. Modelo do PDF com cabeçalho, as duas seções e campos de autor e revisor em cada item."],
+      4:["Descrição dos casos de uso","Para cada UC: objetivo, ator, fluxo principal e regras. Detalhar a Avaliação: questões de 0 a 5, média por dimensão, por UA, por área e da UFG."]
+     }},
+    {n:2, date:"30/09", t:"Estrutura base", s:2,
+     goal:"A base que todos usam nas próximas semanas: dados, pacotes e plataformas.",
+     done:"Diagrama de dados, dicionário, implantação, pacotes e componentes aprovados.",
+     k:{
+      1:["Diagrama de dados e dicionário: app atual","Regional, Campus, Local, Evento, Noticia, ProgramaRadio, Refeicao, AppUFG, DocumentoGuia, com associações e atributos."],
+      2:["Diagrama de implantação e requisitos de qualidade","Smartphone, servidor Minha UFG, banco, Google Maps, Play Store, streaming da rádio; HTTPS/REST. Qualidade: uso sem internet, desempenho, acessibilidade, LGPD."],
+      3:["Diagrama de pacotes e diagramas de componentes","Pacotes nucleo, conteudo, servicos, avaliacao e infraestrutura, com dependências. Um diagrama de componentes por pacote, com interfaces."],
+      4:["Diagrama de dados e dicionário: Avaliação","UnidadeAcademica, AreaConhecimento, DimensaoQualidade, ElementoEducacional, Questao, Avaliacao, Resposta, Usuario. P1 junta com a parte do app atual."]
+     }},
+    {n:3, date:"07/10", t:"Atividades e telas", s:3,
+     goal:"Um diagrama de atividades por caso de uso e um protótipo de tela com os eventos de interação marcados.",
+     done:"Todos os UCs com diagrama de atividades e protótipo de tela aprovados.",
+     k:{
+      1:["Locais e RU (UC07–UC09)","Atividades de consultar cardápio, consultar locais e localizar no mapa. Telas: RU, lista de locais, aba Mapa, detalhe do local."],
+      2:["Segurança, Rádio e Apps (UC01–UC03, UC10)","Atividades de abrir versão web ou loja, ver programação, ouvir rádio, baixar app. Telas com os toques que abrem outros apps."],
+      3:["Guia, Eventos e Notícias (UC04–UC06)","Atividades de abrir o guia, filtrar eventos por data e regional, ver notícias. Telas: calendário, abas de regional, detalhes."],
+      4:["Avaliação de UA (UC11–UC15)","Telas novas: identificação, escolha da UA, questionário por dimensão (0 a 5), confirmação, notas por UA, por área e da UFG."]
+     }},
+    {n:4, date:"14/10", t:"Classes e estados", s:1,
+     goal:"Um diagrama de classes por componente e um diagrama de estados por tela.",
+     done:"Classes com atributos, operações e associações; estados com os eventos da semana 3.",
+     k:{
+      1:["Locais e RU","Classes dos componentes de Locais e RU. Estados das telas de RU, lista de locais e mapa (carregando, com dados, sem internet)."],
+      2:["Segurança, Rádio, Apps + nucleo e infraestrutura","Classes desses componentes, da tela inicial, da navegação, do acesso à API e do cache. Estados das telas de UC01–UC03 e UC10."],
+      3:["Guia, Eventos e Notícias","Classes do pacote conteudo. Estados do calendário (troca de mês, dia sem eventos), das abas de regional e dos detalhes."],
+      4:["Avaliação de UA","Classes da avaliação, incluindo CalculadoraNota. Estados: em andamento, questão sem resposta, enviando sem internet, já enviada."]
+     }},
+    {n:5, date:"21/10", t:"Sequências e contratos", s:2,
+     goal:"Diagramas de sequência para as atividades e contrato de cada operação das classes.",
+     done:"Sequências usando só operações que existem nas classes; todas as operações com contrato.",
+     k:{
+      1:["Locais e RU","Sequências das atividades de UC07–UC09 e contratos (pré e pós-condições) das operações das classes da semana 4."],
+      2:["Segurança, Rádio, Apps + nucleo e infraestrutura","Sequências de UC01–UC03 e UC10, incluindo a chamada aos apps externos, e contratos das operações."],
+      3:["Guia, Eventos e Notícias","Sequências de UC04–UC06 (busca por data e regional na API) e contratos das operações."],
+      4:["Avaliação de UA + regras E-C-A","Sequências de UC11–UC15, contratos e regras ativas: ao registrar avaliação, recalcular notas; rejeitar nota fora de 0 a 5."]
+     }},
+    {n:6, date:"28/10", t:"Consistência e entrega final", s:3, final:true,
+     goal:"Tudo coerente, revisado e enviado. Prazos internos: conteúdo final no domingo 25/10, reunião de consistência na segunda 26/10, PDF pronto na terça 27/10.",
+     done:"INF0290-APS-Azul.pdf enviado no SIGAA na quarta 28/10.",
+     k:{
+      1:["Revisão de português e referências","Texto inteiro revisado (critério 8.1). Lista final de referências e citações de IA no formato da regra 6."],
+      2:["Matriz de rastreabilidade e checagem de consistência","UC → atividades → telas → estados → classes → sequências → contratos. Conferir que os nomes são iguais em todos os modelos."],
+      3:["Montagem do PDF e envio","Cabeçalho com autores em ordem alfabética, sumário, figuras e tabelas numeradas e citadas no texto. Envio no SIGAA."],
+      4:["Apêndices e conferência da regra 5","Atas, registros de comunicação e prompts de IA. Conferir que todo item tem autor e revisor e que todos aparecem nos dois papéis."]
+     }}
+  ];
+  var areas = {1:"Locais · RU · dados",2:"Segurança · Rádio · Apps · implantação",3:"Guia · Eventos · Notícias · documento",4:"Avaliação de UA"};
+  function rev(p,s){ return ((p-1+s)%4)+1; }
+  function nm(p){ return '<span class="nm" data-p="'+p+'">P'+p+'</span>'; }
+  function chip(p,out){ return '<span class="chip c'+p+(out?' out':'')+'">'+nm(p)+'</span>'; }
+
+  var h='';
+  W.forEach(function(w){
+    h += '<article class="week'+(w.final?' final':'')+'" id="e'+w.n+'"><div class="week-head">'
+      + '<div class="date"><b>'+w.date+'</b><span>quarta</span></div>'
+      + '<div class="t"><span class="eyebrow">Entrega '+w.n+' de 6</span><h3>'+w.t+'</h3><p>'+w.goal+'</p></div></div><div class="tasks">';
+    [1,2,3,4].forEach(function(p){
+      var k=w.k[p], r=rev(p,w.s);
+      h += '<div class="task c'+p+'"><span class="who">'+nm(p)+'</span><h4>'+k[0]+'</h4><p>'+k[1]+'</p>'
+        + '<div class="rv">Revisor: '+chip(r,true)+'</div></div>';
+    });
+    h += '</div><div class="week-foot"><b>Pronto quando:</b> '+w.done+'</div></article>';
+  });
+  document.getElementById('weeks').innerHTML = h;
+
+  // summary
+  var s='<thead><tr><th></th>';
+  W.forEach(function(w){ s+='<th>Entrega '+w.n+'<small>qua '+w.date+'</small></th>'; });
+  s+='</tr></thead><tbody>';
+  [1,2,3,4].forEach(function(p){
+    s+='<tr class="c'+p+'"><th>'+nm(p)+'<small>'+areas[p]+'</small></th>';
+    W.forEach(function(w){
+      var reviews = [1,2,3,4].filter(function(a){return rev(a,w.s)===p;})[0];
+      s+='<td>'+w.k[p][0]+'<span class="rvl">revisa '+chip(reviews)+'</span></td>';
+    });
+    s+='</tr>';
+  });
+  s+='</tbody>';
+  document.getElementById('sum').innerHTML = s;
+
+  // rotation
+  var r='<thead><tr><th>Entrega</th><th>Parte de P1</th><th>Parte de P2</th><th>Parte de P3</th><th>Parte de P4</th></tr></thead><tbody>';
+  W.forEach(function(w){
+    r+='<tr><th style="border-left:0">'+w.n+' · '+w.date+'</th>';
+    [1,2,3,4].forEach(function(p){ r+='<td>'+chip(rev(p,w.s),true)+'</td>'; });
+    r+='</tr>';
+  });
+  r+='</tbody>';
+  document.getElementById('rot').innerHTML = r;
+
+  function e(n){ return '<a href="#e'+n+'" class="chip" style="--c:var(--accent);text-decoration:none">'+n+' · '+W[n-1].date+'</a>'; }
+  var apd = [
+    ["Diagrama de casos de uso",[1]],["Diagrama de dados",[2]],["Dicionário de dados",[2]],
+    ["Diagrama de implantação",[2]],["Diagrama de pacotes",[2]],["Diagramas de componentes",[2]],
+    ["Diagramas de atividades",[3]],["Protótipos de tela (IHC)",[3]],
+    ["Diagramas de classes",[4]],["Diagramas de estados",[4]],
+    ["Diagramas de sequência",[5]],["Contratos das operações",[5]],["Regras ativas (E-C-A)",[5]]
+  ];
+  document.getElementById('apd').innerHTML = apd.map(function(x){return '<tr><td>'+x[0]+'</td><td>'+x[1].map(e).join(' ')+'</td></tr>';}).join('');
+  var rules = [
+    ["Dúvidas levadas ao professor (regra 7)",[1]],
+    ["Modelo com duas seções e autor/revisor por item (regra 4c)",[1]],
+    ["Requisitos de qualidade (critério 2.2)",[2]],
+    ["Rastreabilidade (critério 5)",[6]],
+    ["Referências e uso de IA citados (regras 4d e 6)",[6]],
+    ["Português (critério 8.1)",[6]],
+    ["Cabeçalho, nome do arquivo, formatação (regras 4a, 4b; critérios 8.3–8.5)",[6]],
+    ["Atas e registros de comunicação (Apêndice B)",[1,2,3,4,5,6]],
+    ["Todos autores e revisores (regra 5)",[1,2,3,4,5,6]]
+  ];
+  document.getElementById('rules').innerHTML = rules.map(function(x){
+    var cell = x[1].length===6 ? '<span class="muted">todas as semanas</span>' : x[1].map(e).join(' ');
+    return '<tr><td>'+x[0]+'</td><td>'+cell+'</td></tr>';
+  }).join('');
+
+  // names
+  function apply(p, v){
+    var val = v && v.trim() ? v.trim() : ("P"+p);
+    document.querySelectorAll('.nm[data-p="'+p+'"]').forEach(function(el){el.textContent = val;});
+  }
+  document.querySelectorAll('.names input').forEach(function(inp){
+    var p = inp.getAttribute('data-p'), saved = "";
+    try{ saved = localStorage.getItem('aps-azul-nome-'+p) || ""; }catch(err){}
+    inp.value = saved; apply(p, saved);
+    inp.addEventListener('input', function(){
+      apply(p, inp.value);
+      try{ localStorage.setItem('aps-azul-nome-'+p, inp.value); }catch(err){}
+    });
+  });
+})();
+</script>
+</body>
+</html>
